@@ -11,6 +11,8 @@
     export let locale;
     export let workspace = undefined;
     export let transform = undefined;
+    let darkMode = true
+
     $: {
         // evaluate transform to establish a reactive dependency
         transform;
@@ -26,6 +28,12 @@
                 toolbox:
                     config.toolbox ? '<xml><category name="Loading..." colour="100"></category></xml>' : null,
                 rtl,
+                grid: config.grid ?? {
+                    spacing: 40,
+                    length: 2,
+                    colour: darkMode ? "#555" : "#ccc",
+                    snap: true
+                },
             });
             registerDynamicCategories(workspace);
             if (config.toolbox) workspace.updateToolbox(config.toolbox);
@@ -73,6 +81,28 @@
             },
         };
     }
+
+function updateGridTheme() {
+  if (!workspace?.options?.grid) return;
+
+  const color = isDark ? "#555" : "#ccc";
+  workspace.options.grid.colour = color;
+
+  // Wait until Blockly has actually rendered the SVG
+  requestAnimationFrame(() => {
+    const defs = workspace.getCanvas()?.parentNode?.querySelector("defs");
+    if (!defs) return;
+
+    const pattern = defs.querySelector("pattern");
+    if (!pattern) return;
+
+    const line = pattern.querySelector("line");
+    if (line) {
+      line.setAttribute("stroke", color);
+    }
+  });
+}
+
     function applyTransform() {
         if (workspace === undefined) return;
         const { scrollX, scrollY, scale } = transform;
@@ -93,14 +123,11 @@
             Blockly.svgResize(workspace);
         }
     }
-    // TODO this breaks smooth scrolling; for now, transform is read-only
-    // $: {
-    // 	if (workspace && transform) {
-    // 		const { scrollX, scrollY, scale } = transform;
-    // 		workspace.scroll(scrollX, scrollY);
-    // 		workspace.setScale(scale);
-    // 	}
-    // }
+
+    $: if (workspace && darkMode !== undefined) {
+    updateGridTheme();
+    }
+
 </script>
 
 <div
