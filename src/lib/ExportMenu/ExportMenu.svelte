@@ -62,6 +62,16 @@ function testCode() {
     width: 100%;
     height: 480px;
 }
+:global(.dark) .button2 {
+    margin: 0.5em;
+    padding: 0.5em 1em;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.6em;
+    color: #000000;
+    background-color: #eee;
+}
 .button2 {
     margin: 0.5em;
     padding: 0.5em 1em;
@@ -69,9 +79,10 @@ function testCode() {
     cursor: pointer;
     border: none;
     border-radius: 0.6em;
-    background-color: #eee;
+    color: #ffffff;
+    background-color: #2e2e2e;
 }
 .button2:hover {
-    background-color: #d1d1d1;
+    filter:brightness(0.8);
 }
 </style>
