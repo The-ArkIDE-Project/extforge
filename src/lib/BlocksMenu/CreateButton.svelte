@@ -10,7 +10,7 @@
     button {
         appearance: none;
         border: none;
-        background: linear-gradient(#2bf, #49f);
+        background: linear-gradient(rgb(34, 56, 255), rgb(87, 68, 255));
         width: 100%;
         font-size: 4em;
         padding: 0;
@@ -18,6 +18,9 @@
         cursor: pointer;
         display: flex;
         justify-content: flex-end;
+    }
+    button:hover {
+        filter: brightness(1.2);
     }
     button:active {
         filter: brightness(0.8);

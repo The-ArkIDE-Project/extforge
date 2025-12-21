@@ -2,7 +2,7 @@
     import util from "../../resources/util";
     import CreateButton from "./CreateButton.svelte";
     import Blockly from "blockly/core";
-
+    
     function updateBlocks() {
         blocks = window.blocks
         window.blocks = blocks
@@ -13,7 +13,7 @@
             let xml = Blockly.Xml.workspaceToDom(workspace);
             workspace.clear();
             Blockly.Xml.domToWorkspace(xml, workspace);
-            this.refreshToolboxSelection();
+            workspace.refreshToolboxSelection();
         } catch {}
     }
 
@@ -51,6 +51,29 @@
         window.modals["editblock"].toggle()
     }
 
+    function deleteBlock(id) {
+        if (!confirm("Are you sure you want to delete this block? This cannot be undone. This may also cause issues.")) return
+        
+        // Remove from blocks object
+        delete window.blocks[id]
+        
+        // Find and remove any instances of this block from the workspace
+        try {
+            let workspace = window.workspace
+            let allBlocks = workspace.getAllBlocks(false)
+            
+            allBlocks.forEach(block => {
+                if (block.type === "blocks_define" && block.blockId_ === id) {
+                    block.dispose(false)
+                }
+            })
+        } catch (e) {
+            console.error("Error removing block from workspace:", e)
+        }
+        
+        updateBlocks()
+    }
+    
     setInterval(() => {
         if (!globalThis.window) return
         blocks = window.blocks
@@ -65,8 +88,9 @@
     {#each Object.entries(blocks) as [id, block]}
         <div class="block">
             <span class="name">{util.blockToName(block.fields)}</span>
-            <div>
+            <div class="buttons">
                 <button class="edit" on:click={() => editBlock(id)}>Edit</button>
+                <button class="delete" on:click={() => deleteBlock(id)}>Delete</button>
             </div>
         </div>
     {:else}
@@ -96,18 +120,38 @@
         box-sizing: border-box;
         padding: 8px;
     }
-
+    
+    .buttons {
+        display: flex;
+        gap: 0.5em;
+    }
+    
     .block button {
         appearance: none;
         border: none;
-        background: #4bf;
-        width: 100%;
+        width: auto;
         font-size: 1rem;
         padding: 0.4rem 1rem;
         border-radius: 0.2em;
-        cursor: pointer;
-        display: flex;
-        justify-content: flex-end;
+        cursor: pointer;            
         font-weight: bold;
+    }
+    
+    .edit {
+        background: rgb(55, 0, 255);
+        color:white;
+    }
+
+    .edit:hover {
+        filter: brightness(1.4);
+    }
+    
+    .delete {
+        background: #f44;
+        color: white;
+    }
+    
+    .delete:hover {
+        background: #f55;
     }
 </style>
