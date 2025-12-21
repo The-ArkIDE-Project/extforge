@@ -51,6 +51,9 @@
     div.active button {
         background: #ddd;
     }
+    button:hover {
+        filter:brightness(1.2);
+    }
 
     :global(.dark) button {
         background: #222;

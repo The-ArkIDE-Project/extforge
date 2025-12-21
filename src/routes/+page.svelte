@@ -228,7 +228,7 @@
     Experiments
   </NavigationButton>
   <NavigationDivider />
-  <NavigationButton on:click={() => window.open("https://discord.gg/NeYug9v2hq", '_blank')}>
+  <NavigationButton on:click={() => window.open("https://discord.gg/eZGVNUHuXa", '_blank')}>
     Discord
   </NavigationButton>
   <NavigationDivider />
