@@ -28,12 +28,14 @@
   import NavIconSave from "$lib/images/nav/save.svg";
   import NavIconLoad from "$lib/images/nav/load.svg";
   import NavIconExperiments from "$lib/images/nav/experiments.svg";
+  import NavIconPlus from "$lib/images/nav/plus.svg";
   import NavIconDark from "$lib/images/nav/dark.svg";
 
   import TabManager from "$lib/TabManager/TabManager.svelte";
   import Tab from "$lib/TabManager/Tab.svelte";
 
   import ExperimentsModal from "$lib/Modal/ExperimentsModal.svelte";
+  import SettingsModal from "$lib/Modal/SettingsModal.svelte"
   import CreateVariableModal from "$lib/Modal/CreateVariableModal.svelte";
   import EditBlockModal from "$lib/Modal/EditBlockModal.svelte";
 
@@ -234,12 +236,8 @@
     Experiments
   </NavigationButton>
   <NavigationDivider />
-  <NavigationButton on:click={() => window.open("https://discord.gg/eZGVNUHuXa", '_blank')}>
-    Discord
-  </NavigationButton>
-  <NavigationDivider />
-  <NavigationButton on:click={() => window.open("https://arkide.site", '_blank')}>
-    ArkIDE
+  <NavigationButton icon={NavIconPlus} on:click={() => openModal("settings")}>
+    More
   </NavigationButton>
   <NavigationDivider />
   <p>Extension Name: <span class="name" contenteditable="plaintext-only" bind:innerText={properties.name} on:blur={validateName}></span></p>
@@ -271,6 +269,7 @@
   </TabManager>
 </div>
 <ExperimentsModal />
+<SettingsModal />
 <CreateVariableModal />
 <EditBlockModal />
 
