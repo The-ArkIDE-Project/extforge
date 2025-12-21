@@ -24,6 +24,13 @@ onMount(() => {
     <button>ArkIDE</button>
   </a>
 </div>
+
+<div>
+  <p style="display: inline-block">View ExtForge source code here:</p>
+  <a href="https://github.com/The-ArkIDE-Project/extforge" target="_blank" rel="noopener noreferrer" style="display: inline-block;">
+    <button>Source Code</button>
+  </a>
+</div>
 <small>more soon</small>
 </Modal>
 
