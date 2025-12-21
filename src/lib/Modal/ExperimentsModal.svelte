@@ -73,6 +73,13 @@ function toggleExperiment(exp) {
     background: #f9f9f9;
   }
 
+  :global(.dark) .experiment-item {
+    border: 1px solid #646464;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #3b3b3b;
+  }
+
   .experiment-header {
     display: flex;
     justify-content: space-between;
@@ -89,11 +96,22 @@ function toggleExperiment(exp) {
     font-size: 1.1rem;
     color: #333;
   }
+  :global(.dark) .experiment-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: #cecece;
+  }
 
   .experiment-info p {
     margin: 0;
     font-size: 0.9rem;
     color: #666;
+  }
+
+  :global(.dark) .experiment-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #dadada;
   }
 
   /* Toggle Switch Styles */
