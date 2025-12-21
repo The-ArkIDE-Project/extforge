@@ -43,7 +43,7 @@ function register() {
         return [code, 0];
     });
 
-    // Pick a random element from array
+    // Pick a random element from JSON array
     registerBlock(`${categoryPrefix}pick`, {
         message0: 'pick random from %1',
         args0: [
@@ -57,7 +57,7 @@ function register() {
         colour: categoryColor
     }, (block) => {
         const ARRAY = javascriptGenerator.valueToCode(block, 'ARRAY') || '[]';
-        const code = `${ARRAY}[Math.floor(Math.random() * ${ARRAY}.length)]`;
+        const code = `(() => { const a = JSON.parse(${ARRAY}); return a[Math.floor(Math.random() * a.length)]; })()`;
         return [code, 0];
     });
 
@@ -101,7 +101,7 @@ function register() {
     }, (block) => {
         const ARRAY = javascriptGenerator.valueToCode(block, 'ARRAY') || '[]';
         const INDEX = javascriptGenerator.valueToCode(block, 'INDEX') || '0';
-        const code = `(() => { const a = [...${ARRAY}]; a.splice(${INDEX}, 1); return a; })()`;
+        const code = `(() => { const a = JSON.parse(${ARRAY}); a.splice(${INDEX}, 1); return JSON.stringify(a); })()`;
         return [code, 0];
     });
 
@@ -120,7 +120,7 @@ function register() {
         const ARRAY = javascriptGenerator.valueToCode(block, 'ARRAY') || '[]';
         const INDEX = javascriptGenerator.valueToCode(block, 'INDEX') || '0';
         const VALUE = javascriptGenerator.valueToCode(block, 'VALUE') || 'null';
-        const code = `(() => { const a = [...${ARRAY}]; a[${INDEX}] = ${VALUE}; return a; })()`;
+        const code = `(() => { const a = JSON.parse(${ARRAY}); a[${INDEX}] = ${VALUE}; return JSON.stringify(a); })()`;
         return [code, 0];
     });
 
@@ -135,7 +135,7 @@ function register() {
         colour: categoryColor
     }, (block) => {
         const ARRAY = javascriptGenerator.valueToCode(block, 'ARRAY') || '[]';
-        const code = `${ARRAY}.length`;
+        const code = `JSON.parse(${ARRAY}).length`;
         return [code, 0];
     });
 
@@ -154,7 +154,7 @@ function register() {
     }, (block) => {
         const ARRAY = javascriptGenerator.valueToCode(block, 'ARRAY') || '[]';
         const VALUE = javascriptGenerator.valueToCode(block, 'VALUE') || 'null';
-        const code = `(${ARRAY}.filter(v => v !== ${VALUE}))`;
+        const code = `JSON.stringify(JSON.parse(${ARRAY}).filter(v => v !== ${VALUE}))`;
         return [code, 0];
     });
 
@@ -171,7 +171,7 @@ function register() {
     }, (block) => {
         const ARRAY = javascriptGenerator.valueToCode(block, 'ARRAY') || '[]';
         const VALUE = javascriptGenerator.valueToCode(block, 'VALUE') || 'null';
-        const code = `${ARRAY}.includes(${VALUE})`;
+        const code = `JSON.parse(${ARRAY}).includes(${VALUE})`;
         return [code, 0];
     });
 
@@ -188,7 +188,7 @@ function register() {
     }, (block) => {
         const A1 = javascriptGenerator.valueToCode(block, 'ARRAY1') || '[]';
         const A2 = javascriptGenerator.valueToCode(block, 'ARRAY2') || '[]';
-        const code = `[...${A1}, ...${A2}]`;
+        const code = `JSON.stringify([...JSON.parse(${A1}), ...JSON.parse(${A2})])`;
         return [code, 0];
     });
 
@@ -206,8 +206,8 @@ function register() {
     }, (block) => {
         const ARRAY = javascriptGenerator.valueToCode(block, 'ARRAY') || '[]';
         const START = javascriptGenerator.valueToCode(block, 'START') || '0';
-        const END = javascriptGenerator.valueToCode(block, 'END') || `${ARRAY}.length`;
-        const code = `${ARRAY}.slice(${START}, ${END})`;
+        const END = javascriptGenerator.valueToCode(block, 'END') || 'undefined';
+        const code = `JSON.stringify(JSON.parse(${ARRAY}).slice(${START}, ${END}))`;
         return [code, 0];
     });
 }
