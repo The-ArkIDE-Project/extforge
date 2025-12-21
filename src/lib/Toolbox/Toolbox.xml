@@ -194,5 +194,6 @@
     <category name="Browser" colour="#9d5">
         <block type="script_evalb" />
         <block type="script_evalv" />
+        <block type="script_logb" />
     </category>
 </xml>
