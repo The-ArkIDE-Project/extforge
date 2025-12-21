@@ -231,6 +231,10 @@
   <NavigationButton on:click={() => window.open("https://discord.gg/NeYug9v2hq", '_blank')}>
     Discord
   </NavigationButton>
+  <NavigationDivider />
+  <NavigationButton on:click={() => window.open("https://arkide.site", '_blank')}>
+    ArkIDE
+  </NavigationButton>
 </NavigationBar>
 <div id="main">
   <TabManager let:activeTab let:tabs let:handleTabClick let:registerTab>
