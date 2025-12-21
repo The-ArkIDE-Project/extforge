@@ -168,6 +168,12 @@
     });
   }
 
+  function validateName() {
+        if (properties.name == "") properties.name = "Extension"
+        if (properties.name.length > 20) properties.name = properties.name.substring(0, 20)
+        properties.name = properties.name.replace("\n", " ")
+    }
+
   onMount(() => {
     code = "";
 
@@ -235,6 +241,11 @@
   <NavigationButton on:click={() => window.open("https://arkide.site", '_blank')}>
     ArkIDE
   </NavigationButton>
+  <NavigationDivider />
+  <p>Extension Name: <span class="name" contenteditable="plaintext-only" bind:innerText={properties.name} on:blur={validateName}></span></p>
+  <NavigationDivider />
+  <p>Extension ID: <span class="name" contenteditable="plaintext-only" bind:innerText={properties.id} on:blur={validateName}></span></p>
+  <NavigationDivider />
 </NavigationBar>
 <div id="main">
   <TabManager let:activeTab let:tabs let:handleTabClick let:registerTab>
@@ -294,4 +305,18 @@
       display: none;
     }
   }
+      .name {
+          font-size: 1em;
+          font-weight: 500;
+          background-color: #0002;
+          padding: 0.1em 0.3em;
+          border-radius: 0.2em;
+          margin-top: 0.5em;
+          max-width: 100%;
+          box-sizing: border-box;
+          outline: none;
+      }
+      :global(.dark) .name {
+          background-color: rgba(255, 255, 255, 0.479);
+      }
 </style>

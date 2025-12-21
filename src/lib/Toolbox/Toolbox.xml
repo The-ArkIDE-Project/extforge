@@ -133,6 +133,23 @@
         <!-- resources/categories/blocks.js -->
     </category>
 
+    <category name="JSON / Arrays" colour="#6cf">
+        <block type="json_parse" />
+        <block type="json_stringify" />
+        <sep gap="48"></sep>
+        <block type="json_pick" />
+        <block type="json_fromstring" />
+        <sep gap="48"></sep>
+        <block type="json_remove" />
+        <block type="json_replace" />
+        <block type="json_length" />
+        <sep gap="48"></sep>
+        <block type="json_removevalue" />
+        <block type="json_contains" />
+        <block type="json_concat" />
+        <block type="json_slice" />
+    </category>
+
     <sep />
 
     <!--

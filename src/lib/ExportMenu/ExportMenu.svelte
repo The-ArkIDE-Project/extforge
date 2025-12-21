@@ -1,22 +1,26 @@
 <script>
-    import beautify from "js-beautify";
-    import CodePreview from "$lib/CodePreview/CodePreview.svelte";
+import beautify from "js-beautify";
+import CodePreview from "$lib/CodePreview/CodePreview.svelte";
+import { experiments } from "$lib/stores/experiments";
 
-    export let code
+export let code;
 
-    function copyCode() {
-        navigator.clipboard.writeText(beautify.js(code, {
-            indent_size: 4,
-            space_in_empty_paren: true,
-        }))
-    }
+function copyCode() {
+    navigator.clipboard.writeText(beautify.js(code, {
+        indent_size: 4,
+        space_in_empty_paren: true,
+    }))
+}
 
-    function testCode() {
-        window.open(
-            "https://studio.penguinmod.com/editor?extension=" +
-            encodeURIComponent("data:text/plain;base64," + btoa(code)), '_blank'
-        ).focus();
-    }
+function testCode() {
+    // Don't beautify, just send raw code
+    const dataUrl = `data:text/javascript;charset=utf-8,${encodeURIComponent(code)}`;
+    
+    window.open(
+        `https://studio.arkide.site/editor?extension=${encodeURIComponent(dataUrl)}&unsandboxed`,
+        '_blank'
+    ).focus();
+}
 </script>
 
 <div class="root horiz">
@@ -25,37 +29,49 @@
             <CodePreview {code} />
         </div>
         <div class="horiz">
-            <button on:click={copyCode}>Copy</button>
-            <!--<button on:click={testCode}>Test</button>-->
+            <button class="button2" on:click={copyCode}>Copy</button>
+            {#if $experiments.viewButton}
+                <button class="button2" on:click={testCode}>Test</button>
+            {/if}
         </div>
         <b style:color="red">Make sure to run the extension unsandboxed.</b>
     </div>
 </div>
 
 <style>
-    .vert {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .horiz {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .root {
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-    }
-    .inner {
-        width: 50%;
-        gap: 1em;
-    }
-
-    .code {
-        width: 100%;
-        height: 480px;
-    }
+.vert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.horiz {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.root {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+.inner {
+    width: 50%;
+    gap: 1em;
+}
+.code {
+    width: 100%;
+    height: 480px;
+}
+.button2 {
+    margin: 0.5em;
+    padding: 0.5em 1em;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.6em;
+    background-color: #eee;
+}
+.button2:hover {
+    background-color: #d1d1d1;
+}
 </style>
