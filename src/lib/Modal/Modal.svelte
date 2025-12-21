@@ -63,7 +63,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: linear-gradient(177.5deg, #fca, #faa);
+        background: linear-gradient(177.5deg, rgb(183, 170, 255), rgb(170, 183, 255));
     }
     
     .title {
