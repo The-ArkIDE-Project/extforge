@@ -83,6 +83,8 @@ class Compiler {
             `/*`,
             `   Created with ExtForge`,
             `   https://jwklong.github.io/extforge`,
+            `   https://extforge.arkide.site`,
+            `   App by jwklong, Updated by Ark`,
             `*/`,
             `(async function (Scratch) {`,
             `const variables = {};`,
