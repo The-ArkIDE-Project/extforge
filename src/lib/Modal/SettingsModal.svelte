@@ -31,6 +31,13 @@ onMount(() => {
     <button>Source Code</button>
   </a>
 </div>
+
+<div>
+  <p style="display: inline-block">Upload your custom extensions here: </p>
+  <a href="https://forums.arkide.site/t/custom-extensions" target="_blank" rel="noopener noreferrer" style="display: inline-block;">
+    <button>Upload Extension (Create forum post)</button>
+  </a>
+</div>
 <small>more soon</small>
 </Modal>
 
