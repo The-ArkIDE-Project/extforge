@@ -85,4 +85,7 @@ function testCode() {
 .button2:hover {
     filter:brightness(0.8);
 }
+.button2:active {
+    filter:brightness(0.4);
+}
 </style>
