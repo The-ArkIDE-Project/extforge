@@ -181,6 +181,7 @@
         <block type="runtime_timer" />
         <sep gap="48"></sep>
         <block type="runtime_turboset" />
+        <block type="runtime_turbotoggle" />
         <block type="runtime_turboget" />
         <sep gap="48"></sep>
         <block type="runtime_frameset" />

@@ -7,6 +7,7 @@
         name: "Extension",
         id: "extensionID",
         color: "#0fbd8c",
+        color3: "#11cf99",
         imageUri: null,
         showBlockIcon: false,
         useExternalUrl: false
@@ -115,6 +116,7 @@
         <div class="vert equal">
             <span>ID: <input type="text" placeholder="extensionID" maxlength="20" bind:value={properties.id} on:blur={update}></span>
             <span>Color: <input type="color" bind:value={properties.color} on:blur={update}></span>
+            <span>Block Outline: <input type="color" bind:value={properties.color3} on:blur={update}></span>
             {#if $experiments.extensionLogo}
                 <span class="image-upload">
                     Logo: 

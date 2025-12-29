@@ -124,6 +124,7 @@ class Compiler {
         classRegistry.extensionInfo.id = properties.id;
         classRegistry.extensionInfo.name = properties.name;
         classRegistry.extensionInfo.color1 = properties.color;
+        classRegistry.extensionInfo.color3 = properties.color3;
         if (properties.imageUri) {
             classRegistry.extensionInfo.menuIconURI = properties.imageUri;
             if (properties.showBlockIcon) {

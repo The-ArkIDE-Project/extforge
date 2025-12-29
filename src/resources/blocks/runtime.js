@@ -211,6 +211,27 @@ function register() {
 
         return `Scratch.vm.runtime.startHats("event_whenbroadcastreceived", {BROADCAST_OPTION: ${NAME}})`;
     })
+    registerBlock(`${categoryPrefix}turbotoggle`, {
+        message0: 'set turbo mode %1',
+        args0: [
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    ["on", "true"],
+                    ["off", "false"]
+                ]
+            }
+        ],
+        previousStatement: null,
+        nextStatement: null,
+        inputsInline: true,
+        colour: categoryColor
+    }, (block) => {
+        const STATE = block.getFieldValue('STATE');
+        const code = `Scratch.vm.setTurboMode(${STATE});`;
+        return `${code}\n`;
+    })
 }
 
 export default register;
