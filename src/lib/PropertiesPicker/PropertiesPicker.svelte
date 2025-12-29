@@ -57,19 +57,19 @@
                     
                     // If too large, try reducing size
                     if (dataUri.length > 8000) {
-                        canvas.width = 60;
-                        canvas.height = 60;
-                        ctx.clearRect(0, 0, 60, 60);
-                        ctx.drawImage(img, 0, 0, 60, 60);
+                        canvas.width = 150;
+                        canvas.height = 150;
+                        ctx.clearRect(0, 0, 150, 150);
+                        ctx.drawImage(img, 0, 0, 150, 150);
                         dataUri = canvas.toDataURL('image/png');
                     }
                     
                     // If still too large, try even smaller
                     if (dataUri.length > 8000) {
-                        canvas.width = 40;
-                        canvas.height = 40;
-                        ctx.clearRect(0, 0, 40, 40);
-                        ctx.drawImage(img, 0, 0, 40, 40);
+                        canvas.width = 100;
+                        canvas.height = 100;
+                        ctx.clearRect(0, 0, 100, 100);
+                        ctx.drawImage(img, 0, 0, 100, 100);
                         dataUri = canvas.toDataURL('image/png');
                     }
                     
