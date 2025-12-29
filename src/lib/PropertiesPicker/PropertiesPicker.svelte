@@ -44,14 +44,14 @@
                 const img = new Image();
                 img.onload = () => {
                     const canvas = document.createElement('canvas');
-                    canvas.width = 80;
-                    canvas.height = 80;
+                    canvas.width = 200;
+                    canvas.height = 200;
                     const ctx = canvas.getContext('2d');
                     
                     // Clear canvas to transparent
-                    ctx.clearRect(0, 0, 80, 80);
-                    ctx.drawImage(img, 0, 0, 80, 80);
-                    
+                    ctx.clearRect(0, 0, 200, 200);
+                    ctx.drawImage(img, 0, 0, 200, 200);
+
                     // Try PNG first to preserve transparency
                     let dataUri = canvas.toDataURL('image/png');
                     
