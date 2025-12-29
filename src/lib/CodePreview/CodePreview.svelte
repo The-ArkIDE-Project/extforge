@@ -32,6 +32,7 @@
         padding: 8px;
         box-sizing: border-box;
         color: #eee;
+        border-radius: 12px 12px 12px 12px;
     }
 
     .inner {
@@ -42,7 +43,7 @@
         padding: 4px;
         margin: 0;
         box-sizing: border-box;
-        border-radius: 8px;
+        border-radius: 12px;
         overflow: auto;
         font-family: "JetBrains Mono";
         font-size: 12px;

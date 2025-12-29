@@ -1,11 +1,24 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { experiments } from "$lib/stores/experiments";
     const dispatch = createEventDispatcher()
     
     export let properties = {
         name: "Extension",
         id: "extensionID",
-        color: "#0fbd8c"
+        color: "#0fbd8c",
+        imageUri: null,
+        showBlockIcon: false,
+        useExternalUrl: false
+    }
+    
+    let fileInput;
+    let urlInput = "";
+    let displayFileName = "";
+    
+    // Initialize urlInput from properties when component loads or properties change
+    $: if (properties.useExternalUrl && properties.imageUri && urlInput !== properties.imageUri) {
+        urlInput = properties.imageUri;
     }
     
     function update() {
@@ -18,17 +31,118 @@
         properties.name = properties.name.replace("\n", " ")
         update()
     }
+    
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            // Update display name
+            const fileName = file.name;
+            displayFileName = fileName.length > 15 ? fileName.substring(0, 12) + "..." : fileName;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 80;
+                    canvas.height = 80;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Clear canvas to transparent
+                    ctx.clearRect(0, 0, 80, 80);
+                    ctx.drawImage(img, 0, 0, 80, 80);
+                    
+                    // Try PNG first to preserve transparency
+                    let dataUri = canvas.toDataURL('image/png');
+                    
+                    // If too large, try reducing size
+                    if (dataUri.length > 8000) {
+                        canvas.width = 60;
+                        canvas.height = 60;
+                        ctx.clearRect(0, 0, 60, 60);
+                        ctx.drawImage(img, 0, 0, 60, 60);
+                        dataUri = canvas.toDataURL('image/png');
+                    }
+                    
+                    // If still too large, try even smaller
+                    if (dataUri.length > 8000) {
+                        canvas.width = 40;
+                        canvas.height = 40;
+                        ctx.clearRect(0, 0, 40, 40);
+                        ctx.drawImage(img, 0, 0, 40, 40);
+                        dataUri = canvas.toDataURL('image/png');
+                    }
+                    
+                    properties.imageUri = dataUri;
+                    update();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    function handleUrlInput(event) {
+        if (event.key === 'Enter' || event.type === 'blur') {
+            properties.imageUri = urlInput;
+            update();
+        }
+    }
+    
+    function clearImage() {
+        properties.imageUri = null;
+        urlInput = "";
+        displayFileName = "";
+        if (fileInput) {
+            fileInput.value = '';
+        }
+        update();
+    }
 </script>
 
 <div class="root vert">
     <div class="inner horiz">
         <div class="vert equal">
-            <div class="bubble" style:background={properties.color} style:box-shadow="0 0 20px {properties.color}, 0 0 40px {properties.color}80, 0 0 60px {properties.color}40" />
+            {#if properties.imageUri}
+                <div class="bubble image-bubble">
+                    <img src={properties.imageUri} alt="Extension logo" />
+                </div>
+            {:else}
+                <div class="bubble" style:background={properties.color} style:box-shadow="0 0 20px {properties.color}, 0 0 40px {properties.color}80, 0 0 60px {properties.color}40" />
+            {/if}
             <span class="name" contenteditable="plaintext-only" bind:innerText={properties.name} on:blur={validateName}></span>
         </div>
         <div class="vert equal">
             <span>ID: <input type="text" placeholder="extensionID" maxlength="20" bind:value={properties.id} on:blur={update}></span>
             <span>Color: <input type="color" bind:value={properties.color} on:blur={update}></span>
+            {#if $experiments.extensionLogo}
+                <span class="image-upload">
+                    Logo: 
+                    {#if properties.useExternalUrl}
+                        <input type="text" placeholder="https://example.com/image.png" bind:value={urlInput} on:keydown={handleUrlInput} on:blur={handleUrlInput} class="url-input">
+                    {:else}
+                        <div class="file-input-wrapper">
+                            <input type="file" accept="image/*" on:change={handleImageUpload} bind:this={fileInput} id="file-upload">
+                            <label for="file-upload" class="file-label">
+                                {displayFileName || "Choose file..."}
+                            </label>
+                        </div>
+                    {/if}
+                    {#if properties.imageUri}
+                        <button type="button" on:click={clearImage} class="clear-btn">Clear</button>
+                    {/if}
+                </span>
+                <label class="checkbox-label">
+                    <input type="checkbox" bind:checked={properties.useExternalUrl} on:change={update}>
+                    Use external URL instead
+                </label>
+                {#if properties.imageUri}
+                    <label class="checkbox-label">
+                        <input type="checkbox" bind:checked={properties.showBlockIcon} on:change={update}>
+                        Show icon next to blocks
+                    </label>
+                {/if}
+            {/if}
         </div>
     </div>
     <slot {properties} />
@@ -67,6 +181,20 @@
         margin: 3em 0 1em 0;
         isolation: isolate;
     }
+    .image-bubble {
+        background: #0002;
+        padding: 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px #0004;
+    }
+    :global(.dark) .image-bubble {
+        background: #fff2;
+    }
+    .image-bubble img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
     .name {
         font-size: 1.2em;
         font-weight: 500;
@@ -80,5 +208,78 @@
     }
     :global(.dark) .name {
         background-color: #fff2;
+    }
+    .image-upload {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+    }
+    .file-input-wrapper {
+        flex: 1;
+        position: relative;
+    }
+    .file-input-wrapper input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .file-label {
+        display: block;
+        padding: 0.3em 0.5em;
+        border: 1px solid #0004;
+        border-radius: 0.2em;
+        background-color: #0002;
+        font-size: 0.9em;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    :global(.dark) .file-label {
+        background-color: #fff2;
+        border-color: #fff4;
+    }
+    .file-label:hover {
+        background-color: #0003;
+    }
+    :global(.dark) .file-label:hover {
+        background-color: #fff3;
+    }
+    .clear-btn {
+        padding: 0.3em 0.6em;
+        font-size: 0.9em;
+        background: #ff4444;
+        color: white;
+        border: none;
+        border-radius: 0.2em;
+        cursor: pointer;
+    }
+    .clear-btn:hover {
+        background: #cc0000;
+    }
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        font-size: 0.9em;
+        cursor: pointer;
+        user-select: none;
+    }
+    .checkbox-label input[type="checkbox"] {
+        cursor: pointer;
+    }
+    .url-input {
+        flex: 1;
+        padding: 0.3em 0.5em;
+        border: 1px solid #0004;
+        border-radius: 0.2em;
+        background-color: #0002;
+        font-size: 0.9em;
+    }
+    :global(.dark) .url-input {
+        background-color: #fff2;
+        border-color: #fff4;
+        color: white;
     }
 </style>

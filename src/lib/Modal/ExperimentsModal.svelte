@@ -12,6 +12,13 @@ const experimentsList = [
     description: "Enable the test button on the export page to test your extension.",
     onEnable: () => console.log("View button enabled"),
     onDisable: () => console.log("View button disabled")
+  },
+  {
+    id: "extensionLogo",
+    name: "Extension Logo",
+    description: "Add a custom logo/icon to your extension that appears in the menu and optionally next to blocks.",
+    onEnable: () => console.log("Extension logo enabled"),
+    onDisable: () => console.log("Extension logo disabled")
   }
 ];
 

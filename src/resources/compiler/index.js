@@ -124,6 +124,12 @@ class Compiler {
         classRegistry.extensionInfo.id = properties.id;
         classRegistry.extensionInfo.name = properties.name;
         classRegistry.extensionInfo.color1 = properties.color;
+        if (properties.imageUri) {
+            classRegistry.extensionInfo.menuIconURI = properties.imageUri;
+            if (properties.showBlockIcon) {
+                classRegistry.extensionInfo.blockIconURI = properties.imageUri;
+            }
+        }
         classRegistry.extensionInfo.blocks = Object.entries(window.blocks ?? {}).map(([id, block]) => {
             return {
                 opcode: `block_${id}`,

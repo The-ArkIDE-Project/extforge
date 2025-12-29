@@ -34,7 +34,13 @@ function testCode() {
                 <button class="button2" on:click={testCode}>Test</button>
             {/if}
         </div>
+        {#if $experiments.viewButton}
+            <small>(Using the test button automaticly runs the extension unsandboxed.)</small>
+        {/if}
         <b style:color="red">Make sure to run the extension unsandboxed.</b>
+        {#if $experiments.extensionLogo}
+        <p>Note: If you <strong>imported</strong> an image for your extension the "test" button will not work. (If you used an external URL it will work fine)</p>
+        {/if}
     </div>
 </div>
 
@@ -87,5 +93,13 @@ function testCode() {
 }
 .button2:active {
     filter:brightness(0.4);
+}
+
+small {
+    margin-left: 1em;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.75rem;
+    font-variant: italic;
+    color: #555;
 }
 </style>

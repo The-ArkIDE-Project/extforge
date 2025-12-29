@@ -159,6 +159,9 @@
         properties.name = projectJson.properties.name ?? "Extension";
         properties.id = projectJson.properties.id ?? "extensionID";
         properties.color = projectJson.properties.color ?? "#0fbd8c";
+        properties.imageUri = projectJson.properties.imageUri ?? null;
+        properties.showBlockIcon = projectJson.properties.showBlockIcon ?? false;
+        properties.useExternalUrl = projectJson.properties.useExternalUrl ?? false;
 
         window.variables = projectJson.variables ?? {};
         window.blocks = projectJson.blocks ?? {};

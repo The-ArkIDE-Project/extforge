@@ -47,6 +47,7 @@
         border-bottom: 4px solid #0002;
         box-sizing: border-box;
         transition: background 0.3s cubic-bezier(0, 0, 0.3, 1);
+        border-radius: 0px 0px 12px 12px;
     }
     div.active button {
         background: #ddd;
