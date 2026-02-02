@@ -1,6 +1,6 @@
 # extforge
 
-A svelte-powered app to make extensions for PenguinMod with blockly
+A svelte-powered app to make extensions for ArkIDE/PenguinMod with blockly
 
 This is a forked version fo extforge where ill add some new blocks and experements and stuff. This is really just to get the app unblocked on my school's chromebooks as the original version of this app used github.io to host it wich is blocked for us. If you have any sugjestions of blocks you want me to add open a forum on [ArkIDE Forums](https://forums.arkide.site)
 
